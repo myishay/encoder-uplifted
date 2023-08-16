@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
-import { ConvertVideoBody, VideoFormat } from './converter.dto';
+import { ConvertVideoBody } from './converter.dto';
 
 @Controller()
 export class AppController {
@@ -13,7 +13,9 @@ export class AppController {
   }
 
   @Post('/convert-video')
-  async convertVideoToDesiredFormat(@Body() convertVideoBody: any) {
+  async convertVideoToDesiredFormat(
+    @Body() convertVideoBody: ConvertVideoBody,
+  ) {
     return this.appService.convertVideoToDesiredFormat(
       convertVideoBody.url,
       convertVideoBody.format,

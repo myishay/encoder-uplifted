@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { exec } from 'child_process';
 import * as fs from 'fs';
-import { tmpdir } from 'os';
-import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { VideoFormat } from './converter.dto';
 
@@ -25,9 +23,13 @@ export class AppService {
     filename: string,
   ) {
     try {
+      console.log('filename:', filename);
+      console.time(filename);
       await this.execPromise(`ffmpeg -i ${videoUrl} ${filename}`);
+      console.timeEnd(filename);
       fs.renameSync(filename, `./public/${filename}`);
     } catch (error) {
+      console.log('error');
       console.error(error);
     }
   }
